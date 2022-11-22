@@ -3,6 +3,8 @@ import Webcam from "react-webcam";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { useDispatch } from "react-redux";
 import { setCameraImage } from "./features/cameraSlice";
+import { useNavigate } from "react-router-dom";
+import './WebcamCapture.css';
 
 const videoConstraints = {
   width: 250,
@@ -13,13 +15,14 @@ const videoConstraints = {
 function WebcamCapture() {
   const webcamRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     dispatch(setCameraImage(imageSrc));
-
-  }, [webcamRef, dispatch]);
+    navigate('/preview');
+  }, [webcamRef, dispatch, navigate]);
 
   return (
     <div className="webcamCapture">
@@ -33,7 +36,7 @@ function WebcamCapture() {
       />
 
       <RadioButtonUncheckedIcon 
-      className="webcamCapture"
+      className="webcamCapture__button"
       onClick={capture}
       fontSize="large"
       />
